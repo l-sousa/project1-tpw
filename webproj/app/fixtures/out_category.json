@@ -1,0 +1,13 @@
+[{"model": "app.category", "pk": 1, "fields": {"name": "Mercearia"}},
+{"model": "app.category", "pk": 2, "fields": {"name": "Fruta"}},
+{"model": "app.category", "pk": 3, "fields": {"name": "Peixe"}},
+{"model": "app.category", "pk": 4, "fields": {"name": "Carne"}},
+{"model": "app.category", "pk": 5, "fields": {"name": "Legumes"}},
+{"model": "app.category", "pk": 6, "fields": {"name": "Padaria"}},
+{"model": "app.category", "pk": 7, "fields": {"name": "Charcutaria"}},
+{"model": "app.category", "pk": 8, "fields": {"name": "Queijos"}},
+{"model": "app.category", "pk": 9, "fields": {"name": "Bebidas"}},
+{"model": "app.category", "pk": 10, "fields": {"name": "Lacticínios"}},
+{"model": "app.category", "pk": 11, "fields": {"name": "Congelados"}},
+{"model": "app.category", "pk": 12, "fields": {"name": "Higiene e Beleza"}}
+]

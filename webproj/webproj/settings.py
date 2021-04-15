@@ -26,7 +26,7 @@ SECRET_KEY = '5z*p$n0k%flw^8$fhl(bnm+k9#1jyxp4sp^omh0#=&mye^b#%#'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+FIXTURE_DIRS = ['webproj/app/fixtures']
 
 # Application definition
 
