@@ -1,0 +1,32 @@
+{% load static %}
+
+{% if user.is_authenticated %}
+
+    <div class="header__top__right__social" >
+        <a href="#"><i class="fa fa-heart"></i> <span>1</span></a>
+        <a href="#"><i class="fa fa-shopping-bag"></i> <span> 3 </span></a>
+        <div class="header__cart__price">Total: <span>$150.00</span></div>
+    </div>
+    <div class="header__top__right__language" hidden></div>
+    <div class="header__top__right__auth">
+        <form id="logoutForm" action="/logout" method="GET">
+	        {% csrf_token %}
+            <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-user"></i> Logout</a>
+        </form>
+    </div>
+
+{% else %}
+    <div class="header__top__right__social" hidden >
+        <a href="#"><i class="fa fa-heart"></i> <span>1</span></a>
+        <a href="#"><i class="fa fa-shopping-bag"></i> <span> 3 </span></a>
+        <div class="header__cart__price">Total: <span>$150.00</span></div>
+    </div>
+    <div class="header__top__right__language" hidden></div>
+    <div class="header__top__right__auth">
+        <a href="{% url 'login' %}"><i class="fa fa-user"></i> Login</a>
+        <!--
+        <a href="#"><i class="fa fa-user"></i> Sign Up</a>
+        -->
+    </div>
+
+{% endif %}
