@@ -300,13 +300,14 @@
 </head>
 <body>
 <div class="wrapper fadeInDown">
-    <div id="formContent">
+    <div id="formContent ">
         <!-- Login Form -->
         <h2>Mercadinho dos Cliques</h2>
-        <form>
-            <input type="text" id="login" class="fadeIn second" name="login"
+        <form action="." method="post">
+            {% csrf_token %}
+            <input type="text" id="id_username" class="fadeIn second form-control form.username" name="username"
                    placeholder="username">
-            <input type="text" id="password" class="fadeIn third" name="login"
+            <input type="text" id="id_password" class="fadeIn third form-control" name="password"
                    placeholder="password">
             <input type="submit" class="fadeIn fourth" value="Log In">
         </form>
