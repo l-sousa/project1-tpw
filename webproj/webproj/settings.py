@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
+
+    'widget_tweaks', #create nice forms :')
 ]
 
 MIDDLEWARE = [
