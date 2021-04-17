@@ -10,7 +10,7 @@
     <section class="hero">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-3 categories">
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
@@ -18,32 +18,52 @@
                         </div>
                         <ul>
                             {% for category in categories %}
-                            <li><a href="#">{{ category.name }}</a></li>
+                                <li><a href="#">{{ category.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-9">
-                        <div class="hero__search">
-                            <div class="hero__search__form">
-                                <form action="#">
-                                    <input type="text" placeholder="O que procura?">
-                                    <button type="submit" class="site-btn">PROCURAR</button>
-                                </form>
+                    <div class="row">
+                        <div class="col product_container bg-light">
+
+                            <div class="d-flex justify-content-center"><a href="/"><img
+                                    src="https://media.continente.pt/Sonae.eGlobal.Presentation.Web.Media/media.axd?resourceSearchType=2&resource=ProductId=4949742(eCsf$RetekProductCatalog$MegastoreContinenteOnline$Continente)&siteId=1&channelId=1&width=150&height=150&defaultOptions=1"></a>
                             </div>
+                            <div class="bg-light product_info">
+                                <span>Pasta Dentes - Oral-B</span>
+                                <span>5.00€</span>
+                            </div>
+                            <ul class="product__item__pic__hover">
+                                <li>
+                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col product_container bg-light">
+
+                            <div class="d-flex justify-content-center"><a href="/"><img
+                                    src="https://media.continente.pt/Sonae.eGlobal.Presentation.Web.Media/media.axd?resourceSearchType=2&resource=ProductId=4040367(eCsf$RetekProductCatalog$MegastoreContinenteOnline$Continente)&siteId=1&channelId=1&width=150&height=150&defaultOptions=1"></a>
+                            </div>
+                            <div class="bg-light product_info">
+                                <span>Pasta Dentes - Oral-B</span>
+                                <span>5.00€</span>
+                            </div>
+                            <ul class="product__item__pic__hover">
+                                <li>
+                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                                </li>
+                            </ul>
 
                         </div>
-                        <div class="hero__item set-bg" data-setbg="img/hero/banner.jpg">
-                            <div class="hero__text">
-                                <span>FRUIT FRESH</span>
-                                <h2>Vegetable <br />100% Organic</h2>
-                                <p>Free Pickup and Delivery Available</p>
-                                <a href="#" class="primary-btn">SHOP NOW</a>
-                            </div>
-                        </div>
+                        <div class="col"></div>
+                        <div class="col"></div>
                     </div>
+
                 </div>
             </div>
+        </div>
+        </div>
     </section>
     <!-- Hero Section End -->
 

@@ -1,0 +1,22 @@
+.categories {
+
+}
+
+.product_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2%;
+    margin:1%
+}
+
+.product_container span {
+    margin-top: ;
+    display: flex;
+    justify-content: center;
+
+}
+
+.product_info {
+
+}
