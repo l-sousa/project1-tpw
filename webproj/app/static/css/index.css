@@ -1,4 +1,12 @@
 .categories {
+    position: fixed;
+}
+
+.all_products {
+
+}
+
+.header_nav {
 
 }
 
@@ -7,7 +15,9 @@
     flex-direction: column;
     justify-content: center;
     padding: 2%;
-    margin:1%
+    margin: 1%;
+    margin-top: 0%;
+    margin-bottom: 7%;
 }
 
 .product_container span {
@@ -20,3 +30,34 @@
 .product_info {
 
 }
+
+.all_categories {
+    background: #7fad39;
+    position: relative;
+    padding: 10px 25px 10px 40px;
+    cursor: pointer;
+}
+
+.all_categories span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+
+}
+
+nav {
+    margin-bottom: 2%;
+    background-color: #7fad39;
+}
+
+nav a {
+    color: white !important;
+    font-weight: bold;
+
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-around;
+}
+

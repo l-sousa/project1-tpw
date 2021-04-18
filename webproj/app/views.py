@@ -4,6 +4,7 @@ from django.http import Http404, HttpResponseRedirect
 from app.models import *
 from app.forms import *
 
+
 # Create your views here.
 
 def indexView(request):
@@ -15,7 +16,11 @@ def indexView(request):
             categories.append(cat)
         data['categories'] = categories
 
+        data['products'] = Product.objects.all()
+        data['products_length'] = range(len(data['products']))
+
     return render(request, 'index.html', data)
+
 
 # Create new user account
 def createAccountView(request):
@@ -30,5 +35,3 @@ def createAccountView(request):
     else:
         form = CreateAccountForm()
         return render(request, 'createaccount.html', {'form': form})
-
-

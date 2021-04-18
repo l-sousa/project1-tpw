@@ -9,11 +9,11 @@
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3 categories">
+            <div class="row header_nav">
+
+                <div class="col-lg3 categories ">
                     <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
+                        <div class="all_categories">
                             <span>Todas as categorias</span>
                         </div>
                         <ul>
@@ -22,43 +22,44 @@
                             {% endfor %}
                         </ul>
                     </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="row">
-                        <div class="col product_container bg-light">
-
-                            <div class="d-flex justify-content-center"><a href="/"><img
-                                    src="https://media.continente.pt/Sonae.eGlobal.Presentation.Web.Media/media.axd?resourceSearchType=2&resource=ProductId=4949742(eCsf$RetekProductCatalog$MegastoreContinenteOnline$Continente)&siteId=1&channelId=1&width=150&height=150&defaultOptions=1"></a>
-                            </div>
-                            <div class="bg-light product_info">
-                                <span>Pasta Dentes - Oral-B</span>
-                                <span>5.00€</span>
-                            </div>
-                            <ul class="product__item__pic__hover">
-                                <li>
-                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
-                                </li>
-                            </ul>
+                    <br>
+                    <div class="hero__categories">
+                        <div class="all_categories">
+                            <span>Filtros</span>
                         </div>
-                        <div class="col product_container bg-light">
+                        <ul>
 
-                            <div class="d-flex justify-content-center"><a href="/"><img
-                                    src="https://media.continente.pt/Sonae.eGlobal.Presentation.Web.Media/media.axd?resourceSearchType=2&resource=ProductId=4040367(eCsf$RetekProductCatalog$MegastoreContinenteOnline$Continente)&siteId=1&channelId=1&width=150&height=150&defaultOptions=1"></a>
-                            </div>
-                            <div class="bg-light product_info">
-                                <span>Pasta Dentes - Oral-B</span>
-                                <span>5.00€</span>
-                            </div>
-                            <ul class="product__item__pic__hover">
-                                <li>
-                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
-                                </li>
-                            </ul>
-
-                        </div>
-                        <div class="col"></div>
-                        <div class="col"></div>
+                        </ul>
                     </div>
+                </div>
+                <div class="col-lg-3 all_products">
+                </div>
+                <div class="col-lg-9 offset-lg-3 all_products row-height">
+                    {% load extra_filters %}
+                    {% comment %}<p>{{ products|get_product_with_index:j }}</p>{% endcomment %}
+
+                    <div class="row">
+                        {% for p in products %}
+                            <div class="col product_container bg-light">
+                                <div class="d-flex justify-content-center"><a href="/"><img
+                                        src="{{ p.image }}"></a>
+                                </div>
+                                <div class="bg-light product_info">
+                                    <span>{{ p.name }} - {{ p.brand }}</span>
+                                    <span>{{ p.price }}€</span>
+                                </div>
+                                <ul class="product__item__pic__hover">
+                                    <li>
+                                        <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% if forloop.counter|divisibleby:3 %}
+                                </div>
+                                <div class="row">
+                            {% endif %}
+                        {% endfor %}
+                        </div>
 
                 </div>
             </div>
