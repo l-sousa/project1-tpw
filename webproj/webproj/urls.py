@@ -26,5 +26,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('createaccount/', views.createAccountView, name='create account'),
+    path('item/<int:pid>/', views.productDetailsView, name='product details'),
 
 ]

@@ -31,4 +31,23 @@ def createAccountView(request):
         form = CreateAccountForm()
         return render(request, 'createaccount.html', {'form': form})
 
+#Product Details
+def productDetailsView(request, pid):
+    data = {}
+    product = Product.objects.get(id=pid)
+    # Only see the product details if the user is logged in
+    if request.user.is_authenticated:
+        # cli = Client.objects.get(user_id=request.user.id) #Get the user id
+        if request.method == 'POST':
+            # process buy
+            return print("oki")
+        else:
+            data['product'] = product
+            # data['client'] = cli
+            return render(request, 'productdetails.html', data)
+    else:
+        return redirect('index')
+
+
+
 
