@@ -9,7 +9,7 @@ from app.forms import *
 def indexView(request):
     data = {}
 
-    if request.method == 'GET':
+    if request.method == 'GET' or request.method=='POST':
         categories = []
         for cat in Category.objects.all():
             categories.append(cat)
