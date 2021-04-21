@@ -60,14 +60,14 @@ def shopSearchView(request):
         form = ProductQueryForm(request.POST)
         if form.is_valid():  # is it valid?
             query = form.cleaned_data['query_prodname']
-            print(query)
-            products = Product.objects.filter(name__icontains=query)
-            print(products.count)
+            pobj = Product.objects.filter(name__icontains=query)
+            bobj = Product.objects.filter(brand__name__icontains=query)
+            products = list(pobj) + list(bobj)
             print(products)
             categories = []
             for cat in Category.objects.all():
                 categories.append(cat)
-            return render(request, 'productsearch.html', {'products': products, 'query_prodname': query, 'all_cats': categories})
+            return render(request, 'productsearch.html', {'products': list(products), 'query_prodname': query, 'all_cats': categories})
     # if GET (or any other method), create blank form
     else:
         form = ProductQueryForm()
