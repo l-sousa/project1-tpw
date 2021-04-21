@@ -163,7 +163,8 @@
                         {% for product in products %}
                             <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div id="product-image" class="product__item__pic set-bg" data-setbg=""><img src="{{ product.image }}">
+                                <div id="product-image" class="product__item__pic set-bg" data-setbg="">
+                                    <img src="{{ product.image }}" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -172,7 +173,7 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="{% url 'product details' pid=product.id %}">{{ product.name}} - {{ product.brand }}</a></h6>
-                                    <h5>{{ product.price }}</h5>
+                                    <h5>€ {{ product.price }}</h5>
                                 </div>
                             </div>
                         </div>
