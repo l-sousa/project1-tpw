@@ -54,6 +54,7 @@ def productDetailsView(request, pid):
 #Search Items
 def shopSearchView(request):
     data = {}
+
     # if POST request, process form data
     if request.method == 'POST':
         # create form instance and pass data to it
@@ -62,16 +63,22 @@ def shopSearchView(request):
             query = form.cleaned_data['query_prodname']
             pobj = Product.objects.filter(name__icontains=query)
             bobj = Product.objects.filter(brand__name__icontains=query)
-            products = list(pobj) + list(bobj)
-            print(products)
+            products = list(list(pobj) + list(bobj))
+            data['products'] = products
+
             categories = []
             for cat in Category.objects.all():
                 categories.append(cat)
-            return render(request, 'productsearch.html', {'products': list(products), 'query_prodname': query, 'all_cats': categories})
+            data['all_cats'] = categories
+            data['query_prodname'] = query
+            form = ProductQueryForm()
+            data['form'] = form
+            return render(request, 'productsearch.html', data)
     # if GET (or any other method), create blank form
     else:
         form = ProductQueryForm()
-    return render(request, 'index.html', {'form': form})
+        data['form'] = form
+    return render(request, 'index.html', data)
 
 
 
