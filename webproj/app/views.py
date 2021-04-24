@@ -81,4 +81,26 @@ def shopSearchView(request):
     return render(request, 'index.html', data)
 
 
+"""
+    EXCLUSIVE ADMIN VIEWS 
+"""
 
+# Add a new product to the shop
+def adminAddNewProductView(request):
+    # Only if we're dealing with an admin!!
+    if request.user.is_authenticated and request.user.is_superuser:
+        data = {}
+        if request.method == "POST":
+            form = NewProductForm(request.POST)
+            if form.is_valid():
+                form.save()
+                # newprod_name = form.cleaned_data['name']
+                data['success'] = 'Novo produto adicionado com sucesso!'
+                data['form'] = NewProductForm()
+            # if GET (or any other method), create blank form
+        else:
+            form = NewProductForm()
+            data['form'] = form
+        return render(request, 'addproduct.html', data)
+    else:
+        return redirect('user404')

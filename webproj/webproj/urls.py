@@ -29,4 +29,8 @@ urlpatterns = [
     path('item/<int:pid>/', views.productDetailsView, name='product details'),
     path('shopsearch/', views.shopSearchView, name='shop search'),
 
+    # ADMIN VIEWS
+    path('admin/addproduct', views.adminAddNewProductView, name='admin add new product'),
+
+
 ]
