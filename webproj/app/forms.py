@@ -14,5 +14,6 @@ class CreateAccountForm(UserCreationForm):
 
 class ProductQueryForm(forms.Form):
     query_prodname = forms.CharField(label='Search:', max_length=100,
-                                     widget=forms.TextInput(attrs={'placeholder': 'O que procura?'}))
+                                     widget=forms.TextInput(attrs={'placeholder': 'O que procura?', 'class': 'search_bar_products mr-sm-2'}))
+
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponseRedirect
-
+from django.contrib.auth import logout
 from app.models import *
 from app.forms import *
 
@@ -9,22 +9,22 @@ from app.forms import *
 
 def indexView(request):
     data = {}
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            categories = []
+            for cat in Category.objects.all():
+                categories.append(cat)
+            searchform = ProductQueryForm()
+            data['categories'] = categories
+            data['form'] = searchform
+            data['products'] = list(Product.objects.all())
+            data['products_length'] = range(len(data['products']))
+        if request.method == 'POST':
+            return render(request, 'productsearch.html', data)
 
-    if request.method == 'GET':
-        categories = []
-        for cat in Category.objects.all():
-            categories.append(cat)
-        searchform = ProductQueryForm()
-        data['categories'] = categories
-        data['form'] = searchform
-        data['products'] = Product.objects.all()
-        data['products_length'] = range(len(data['products']))
-    if request.method == 'POST':
-        return render(request, 'productsearch.html', data)
-
-        
-
-    return render(request, 'index.html', data)
+        return render(request, 'index.html', data)
+    else:
+        return redirect('login')
 
 
 # Create new user account
@@ -41,7 +41,8 @@ def createAccountView(request):
         form = CreateAccountForm()
         return render(request, 'createaccount.html', {'form': form})
 
-#Product Details
+
+# Product Details
 def productDetailsView(request, pid):
     data = {}
     product = Product.objects.get(id=pid)
@@ -56,11 +57,13 @@ def productDetailsView(request, pid):
             # data['client'] = cli
             return render(request, 'productdetails.html', data)
     else:
-        return redirect('index')
+        return redirect('login')
 
-#Search Items
+
+# Search Items
 def shopSearchView(request):
     data = {}
+    print("######################################################")
 
     # if POST request, process form data
     if request.method == 'POST':
@@ -80,7 +83,9 @@ def shopSearchView(request):
             data['query_prodname'] = query
             form = ProductQueryForm()
             data['form'] = form
+
             return render(request, 'productsearch.html', data)
+
     # if GET (or any other method), create blank form
     else:
         form = ProductQueryForm()
@@ -88,3 +93,6 @@ def shopSearchView(request):
     return render(request, 'index.html', data)
 
 
+def account_logout(request):
+    logout(request)
+    return redirect('login')

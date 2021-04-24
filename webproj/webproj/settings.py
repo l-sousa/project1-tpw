@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     'widget_tweaks', #create nice forms :')
 ]
-
+LOGIN_REDIRECT_URL = "/"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -28,5 +28,6 @@ urlpatterns = [
     path('createaccount/', views.createAccountView, name='create account'),
     path('item/<int:pid>/', views.productDetailsView, name='product details'),
     path('shopsearch/', views.shopSearchView, name='shop search'),
+    path('logout/', views.account_logout, name='account_logout'),
 
 ]

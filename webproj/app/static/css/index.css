@@ -46,46 +46,6 @@
 
 }
 
-nav {
-    margin-bottom: 2%;
-    background-color: #43a047;
-}
-
-nav a {
-    color: white !important;
-    font-weight: bold;
-
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.navbar button {
-    background-color: white;
-    color: dimgray;
-    border-color: #7fad39;
-    border-radius: 0;
-}
-
-.navbar button:hover {
-    background-color: #7fad39;
-    color: white;
-    border-color: white;
-
-}
-
-.navbar input {
-    background-color: white;
-    border-color: #7fad39;
-    border-radius: 0;
-}
-
-.navbar input::placeholder {
-    color: dimgray;
-}
-
 .qntt {
     border-radius: 10%;
     padding: 2%;

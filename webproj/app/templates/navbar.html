@@ -8,13 +8,56 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">TAB2</a>
                 </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+                    </li>
+
+                {% endif %}
             </ul>
 
         </div>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+
     </nav>
     <br><br><br>
+
+    <style>
+        nav {
+            background-color: #43a047;
+        }
+
+        nav a {
+            color: white !important;
+            font-weight: bold;
+
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .navbar button {
+            background-color: white;
+            color: dimgray;
+            border-color: #7fad39;
+            border-radius: 0;
+        }
+
+        .navbar button:hover {
+            background-color: #7fad39;
+            color: white;
+            border-color: white;
+
+        }
+
+        .navbar input {
+            background-color: white;
+            border-color: #7fad39;
+            border-radius: 0;
+        }
+
+        .navbar input::placeholder {
+            color: dimgray;
+        }</style>
 {% endblock %}
