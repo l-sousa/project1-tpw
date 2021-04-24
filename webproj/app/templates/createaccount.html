@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %} Create New Account {% endblock %}
+{% block title %} Criar Nova Conta {% endblock %}
 
 {% block content %}
 
@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Create New Account</h2>
+                        <h2>Criar Nova Conta</h2>
                     </div>
                 </div>
             </div>
@@ -25,23 +25,27 @@
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
-                <h4>Account Details</h4>
+                <h4 style="text-align: center; margin-bottom: 50px;">Detalhes do Cliente</h4>
                 <form action="." method="post">
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-8 col-md-6">
+                        <div class="col-lg-8 col-md-6" style="margin-left: auto; margin-right: auto;">
                         {% for field in form %}
-                            <div class="checkout__input">
-                                <div class="row" ></div>
+                            <div class="row checkout__input">
+                                <div class="col-md-4" >
                                     <p>{{ field.label_tag }}</p>
+                                </div>
+                                <div class="col-md-6">
                                     <p> {{ field|add_class:'form-control' }}</p>
+                                    {% if field.help_text %}
+                                        <small style="color: grey">{{ field.help_text }}</small>
+                                    {% endif %}
+                                </div>
+
                             </div>
                         {% endfor %}
-                        </div>
-                    </div>
                     <div class="row form-group">
                         <div class="col-lg-8 col-md-6">
-                            <button type="submit" class="site-btn">CREATE ACCCOUNT</button>
+                            <button type="submit" class="site-btn">CRIAR CONTA</button>
                         </div>
                     </div>
                 </form>
