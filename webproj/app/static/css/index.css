@@ -32,10 +32,11 @@
 }
 
 .all_categories {
-    background: #7fad39;
+    background: #76d275;
     position: relative;
-    padding: 10px 25px 10px 40px;
+    padding: 10px 40px 10px 40px;
     cursor: pointer;
+
 }
 
 .all_categories span {
@@ -47,7 +48,7 @@
 
 nav {
     margin-bottom: 2%;
-    background-color: #7fad39;
+    background-color: #43a047;
 }
 
 nav a {
@@ -58,6 +59,53 @@ nav a {
 
 .navbar {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
+
+.navbar button {
+    background-color: white;
+    color: dimgray;
+    border-color: #7fad39;
+    border-radius: 0;
+}
+
+.navbar button:hover {
+    background-color: #7fad39;
+    color: white;
+    border-color: white;
+
+}
+
+.navbar input {
+    background-color: white;
+    border-color: #7fad39;
+    border-radius: 0;
+}
+
+.navbar input::placeholder {
+    color: dimgray;
+}
+
+.qntt {
+    border-radius: 10%;
+    padding: 2%;
+    margin: 2%;
+    background-color: #d4e157;
+    margin-right: 0%;
+}
+
+.name_brand {
+    margin-bottom: 4%;
+
+}
+
+.price {
+    background-color: #76d275;
+    border-radius: 10%;
+    padding: 2%;
+    margin: 2%;
+    margin-right: 0%;
+}
+
+
 
