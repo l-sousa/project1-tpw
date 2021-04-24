@@ -41,4 +41,50 @@ def createAccountView(request):
         form = CreateAccountForm()
         return render(request, 'createaccount.html', {'form': form})
 
+#Product Details
+def productDetailsView(request, pid):
+    data = {}
+    product = Product.objects.get(id=pid)
+    # Only see the product details if the user is logged in
+    if request.user.is_authenticated:
+        # cli = Client.objects.get(user_id=request.user.id) #Get the user id
+        if request.method == 'POST':
+            # process buy
+            return print("oki")
+        else:
+            data['product'] = product
+            # data['client'] = cli
+            return render(request, 'productdetails.html', data)
+    else:
+        return redirect('index')
+
+#Search Items
+def shopSearchView(request):
+    data = {}
+
+    # if POST request, process form data
+    if request.method == 'POST':
+        # create form instance and pass data to it
+        form = ProductQueryForm(request.POST)
+        if form.is_valid():  # is it valid?
+            query = form.cleaned_data['query_prodname']
+            pobj = Product.objects.filter(name__icontains=query)
+            bobj = Product.objects.filter(brand__name__icontains=query)
+            products = list(list(pobj) + list(bobj))
+            data['products'] = products
+
+            categories = []
+            for cat in Category.objects.all():
+                categories.append(cat)
+            data['all_cats'] = categories
+            data['query_prodname'] = query
+            form = ProductQueryForm()
+            data['form'] = form
+            return render(request, 'productsearch.html', data)
+    # if GET (or any other method), create blank form
+    else:
+        form = ProductQueryForm()
+        data['form'] = form
+    return render(request, 'index.html', data)
+
 
