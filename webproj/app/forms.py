@@ -12,3 +12,7 @@ class CreateAccountForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'address', 'password1', 'password2',)
 
+class ProductQueryForm(forms.Form):
+    query_prodname = forms.CharField(label='Search:', max_length=100,
+                                     widget=forms.TextInput(attrs={'placeholder': 'O que procura?'}))
+

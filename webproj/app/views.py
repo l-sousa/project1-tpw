@@ -14,10 +14,15 @@ def indexView(request):
         categories = []
         for cat in Category.objects.all():
             categories.append(cat)
+        searchform = ProductQueryForm()
         data['categories'] = categories
-
+        data['form'] = searchform
         data['products'] = Product.objects.all()
         data['products_length'] = range(len(data['products']))
+    if request.method == 'POST':
+        return render(request, 'productsearch.html', data)
+
+        
 
     return render(request, 'index.html', data)
 
@@ -35,3 +40,5 @@ def createAccountView(request):
     else:
         form = CreateAccountForm()
         return render(request, 'createaccount.html', {'form': form})
+
+
