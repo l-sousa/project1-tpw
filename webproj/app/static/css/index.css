@@ -1,0 +1,111 @@
+.categories {
+    position: fixed;
+}
+
+.all_products {
+
+}
+
+.header_nav {
+
+}
+
+.product_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2%;
+    margin: 1%;
+    margin-top: 0%;
+    margin-bottom: 7%;
+}
+
+.product_container span {
+    margin-top: ;
+    display: flex;
+    justify-content: center;
+
+}
+
+.product_info {
+
+}
+
+.all_categories {
+    background: #76d275;
+    position: relative;
+    padding: 10px 40px 10px 40px;
+    cursor: pointer;
+
+}
+
+.all_categories span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+
+}
+
+nav {
+    margin-bottom: 2%;
+    background-color: #43a047;
+}
+
+nav a {
+    color: white !important;
+    font-weight: bold;
+
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navbar button {
+    background-color: white;
+    color: dimgray;
+    border-color: #7fad39;
+    border-radius: 0;
+}
+
+.navbar button:hover {
+    background-color: #7fad39;
+    color: white;
+    border-color: white;
+
+}
+
+.navbar input {
+    background-color: white;
+    border-color: #7fad39;
+    border-radius: 0;
+}
+
+.navbar input::placeholder {
+    color: dimgray;
+}
+
+.qntt {
+    border-radius: 10%;
+    padding: 2%;
+    margin: 2%;
+    background-color: #d4e157;
+    margin-right: 0%;
+}
+
+.name_brand {
+    margin-bottom: 4%;
+
+}
+
+.price {
+    background-color: #76d275;
+    border-radius: 10%;
+    padding: 2%;
+    margin: 2%;
+    margin-right: 0%;
+}
+
+
+
