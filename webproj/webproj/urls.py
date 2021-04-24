@@ -23,11 +23,10 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.indexView, name='index'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='account_logout'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('createaccount/', views.createAccountView, name='create account'),
     path('item/<int:pid>/', views.productDetailsView, name='product details'),
     path('shopsearch/', views.shopSearchView, name='shop search'),
-    path('logout/', views.account_logout, name='account_logout'),
 
 ]

@@ -9,22 +9,19 @@ from app.forms import *
 
 def indexView(request):
     data = {}
-    if request.user.is_authenticated:
-        if request.method == 'GET':
-            categories = []
-            for cat in Category.objects.all():
-                categories.append(cat)
-            searchform = ProductQueryForm()
-            data['categories'] = categories
-            data['form'] = searchform
-            data['products'] = list(Product.objects.all())
-            data['products_length'] = range(len(data['products']))
-        if request.method == 'POST':
-            return render(request, 'productsearch.html', data)
+    if request.method == 'GET':
+        categories = []
+        for cat in Category.objects.all():
+            categories.append(cat)
+        searchform = ProductQueryForm()
+        data['categories'] = categories
+        data['form'] = searchform
+        data['products'] = list(Product.objects.all())
+        data['products_length'] = range(len(data['products']))
+    if request.method == 'POST':
+        return render(request, 'productsearch.html', data)
 
-        return render(request, 'index.html', data)
-    else:
-        return redirect('login')
+    return render(request, 'index.html', data)
 
 
 # Create new user account
@@ -46,18 +43,15 @@ def createAccountView(request):
 def productDetailsView(request, pid):
     data = {}
     product = Product.objects.get(id=pid)
-    # Only see the product details if the user is logged in
-    if request.user.is_authenticated:
-        # cli = Client.objects.get(user_id=request.user.id) #Get the user id
-        if request.method == 'POST':
-            # process buy
-            return print("oki")
-        else:
-            data['product'] = product
-            # data['client'] = cli
-            return render(request, 'productdetails.html', data)
+
+    # cli = Client.objects.get(user_id=request.user.id) #Get the user id
+    if request.method == 'POST':
+        # process buy
+        return print("oki")
     else:
-        return redirect('login')
+        data['product'] = product
+        # data['client'] = cli
+        return render(request, 'productdetails.html', data)
 
 
 # Search Items
@@ -73,7 +67,7 @@ def shopSearchView(request):
             query = form.cleaned_data['query_prodname']
             pobj = Product.objects.filter(name__icontains=query)
             bobj = Product.objects.filter(brand__name__icontains=query)
-            products = list(list(pobj) + list(bobj))
+            products = list(set(list(list(pobj) + list(bobj))))
             data['products'] = products
 
             categories = []
