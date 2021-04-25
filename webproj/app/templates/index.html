@@ -33,10 +33,10 @@
                 <div class="col-lg-3">
                     <div class="sidebar">
                         <div class="sidebar__item">
-                            <h4>Todas as Categorias</h4>
+                            <a href="{% url 'index' %}"><h4>Todas as Categorias</h4></a>
                             <ul>
                                 {% for cat in categories %}
-                                    <li><a href="#">{{ cat.name }}</a></li>
+                                    <li><a href="{% url 'select category' cat=cat.name %}">{{ cat.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -51,11 +51,18 @@
                                 </div>
                                 <div class="range-slider">
                                     <div class="price-input">
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
+                                        <form action="{% url 'range slider' %}" method="post">
+                                            {% csrf_token %}
+                                            {{ form.min_value }}
+                                            {{ form.max_value }}
+
+                                            <button type="submit" class="site-btn">Aplicar Filtro</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -73,20 +80,23 @@
 
                     <div class="filter__item">
                         <div class="row">
+
+
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
-                                    <span>Ordenar por:</span>
-                                    <select>
-                                        <option value="0">Default</option>
-                                        <option value="1">Preço (asc)</option>
-                                        <option value="2">Preço (des)</option>
+                                    <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                        <option value="{% url 'index' %}">Ordernar Por</option>
+                                        <option value="{% url 'order products by' order_by='asc' %}">Preço (asc)
+                                        </option>
+                                        <option value="{% url 'order products by' order_by='desc' %}">Preço (des)
+                                        </option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        {% for product in products %}
+                        {% for product in page_obj %}
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
                                     <div id="product-image" class="product__item__pic set-bg" data-setbg="">
@@ -107,14 +117,29 @@
                         {% endfor %}
                     </div>
 
-                    <div class="product__pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                    </div>
                 </div>
             </div>
+
+
+            <div class="product__pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-long-arrow-left"></i></a>
+                    {% endif %}
+
+                    <span class="current" style="margin-right:1% ">
+                         {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-long-arrow-right"></i></a>
+
+                    {% endif %}
+                </span>
+            </div>
+
+        </div>
+        </div>
 
         </div>
         </div>

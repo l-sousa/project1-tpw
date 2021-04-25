@@ -2,6 +2,7 @@ from django import forms
 from app.models import *
 from django.contrib.auth.forms import UserCreationForm
 
+
 class CreateAccountForm(UserCreationForm):
     first_name = forms.CharField(max_length=50, required=True)
     last_name = forms.CharField(max_length=50, required=False, help_text='Optional')
@@ -12,8 +13,13 @@ class CreateAccountForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'address', 'password1', 'password2',)
 
+
 class ProductQueryForm(forms.Form):
     query_prodname = forms.CharField(label='Search:', max_length=100,
-                                     widget=forms.TextInput(attrs={'placeholder': 'O que procura?', 'class': 'search_bar_products mr-sm-2'}))
+                                     widget=forms.TextInput(attrs={'placeholder': 'O que procura?',
+                                                                   'class': 'search_bar_products mr-sm-2'}))
 
 
+class RangeSliderForm(forms.Form):
+    min_value = forms.CharField(widget=forms.TextInput(attrs={'id': 'minamount'}))
+    max_value = forms.IntegerField(widget=forms.TextInput(attrs={'id': 'maxamount'}))

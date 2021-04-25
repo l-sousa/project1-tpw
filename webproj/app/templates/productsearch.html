@@ -35,7 +35,7 @@
                             <h4>Todas as Categorias</h4>
                             <ul>
                                 {% for cat in all_cats %}
-                                    <li><a href="#">{{ cat.name }}</a></li>
+                                    <li><a href="{% url 'select category' cat=cat.name %}">{{ cat.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -119,12 +119,8 @@
 
 
                     </div>
-                    <div class="product__pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                    </div>
+
+
                 </div>
             </div>
         </div>

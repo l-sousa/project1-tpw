@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.contrib.auth import logout
 from app.models import *
 from app.forms import *
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -14,14 +15,89 @@ def indexView(request):
         for cat in Category.objects.all():
             categories.append(cat)
         searchform = ProductQueryForm()
+        rangeSliderForm = RangeSliderForm()
         data['categories'] = categories
         data['form'] = searchform
+        data['range_slider_form'] = rangeSliderForm
+
         data['products'] = list(Product.objects.all())
-        data['products_length'] = range(len(data['products']))
-    if request.method == 'POST':
-        return render(request, 'productsearch.html', data)
+        data['page_obj'] = Paginator(Product.objects.all(), 9)
+
+        page_number = request.GET.get('page')
+        data['page_obj'] = data['page_obj'].get_page(page_number)
+
+        if request.method == 'POST':
+            return render(request, 'productsearch.html', data)
 
     return render(request, 'index.html', data)
+
+
+# Dropdown selector that orders products by
+def orderProductsBy(request, order_by):
+    data = {}
+    if request.method == 'GET':
+        if order_by == "asc":
+            data['products'] = Product.objects.all().order_by('price')
+            data['page_obj'] = Paginator(data['products'], 9)
+
+        else:
+            data['products'] = Product.objects.all().order_by('price').reverse()
+            data['page_obj'] = Paginator(data['products'], 9)
+
+        categories = []
+        for cat in Category.objects.all():
+            categories.append(cat)
+        data['categories'] = categories
+
+        page_number = request.GET.get('page')
+        data['page_obj'] = data['page_obj'].get_page(page_number)
+
+        return render(request, 'index.html', data)
+    return redirect('index')
+
+
+def byCategory(request, cat):
+    data = {}
+    if request.method == 'GET':
+
+        data['products'] = Product.objects.filter(category__name=cat)
+        data['page_obj'] = Paginator(data['products'], 9)
+
+        categories = []
+        for cat in Category.objects.all():
+            categories.append(cat)
+        data['categories'] = categories
+
+        page_number = request.GET.get('page')
+        data['page_obj'] = data['page_obj'].get_page(page_number)
+
+        return render(request, 'index.html', data)
+    return redirect('index')
+
+
+## PROVAVELMENTE APAGAR ISTO
+def rangeSlider(request):
+    if request.method == 'POST':
+        form = RangeSliderForm(request.POST)
+        if form.is_valid():
+            min_val = form.cleaned_data['min_value']
+            max_val = form.cleaned_data['max_value']
+
+            categories = []
+            for cat in Category.objects.all():
+                categories.append(cat)
+            data['categories'] = categories
+
+            data['page_obj'] = Paginator(Product.objects.filter(price__gte=min_val, price__lte=max_val), 9)
+            data['form'] = ProductQueryForm()
+
+            data['range_slider_form'] = form
+            page_number = request.GET.get('page')
+            data['page_obj'] = data['page_obj'].get_page(page_number)
+
+            return render(request, 'index.html', data)
+
+    return redirect('index')
 
 
 # Create new user account
