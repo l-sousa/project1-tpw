@@ -130,8 +130,12 @@ def adminProductsView(request):
                 product.quantity = form.cleaned_data['quantity']
                 product.image = form.cleaned_data['image']
                 product.save()
-                data['success'] = 'Produto ' + product.name + ' editado com sucesso!'
+                data['success'] = 'Produto "' + product.name + '" editado com sucesso!'
                 data['form'] = EditProductForm()
+            # Something went wrong
+            else:
+                #print("FODEU")
+                data['invalid'] = 'Erro na edição de produto!'
         # If GET, create blank form; pass products and categories
         else:
             form = EditProductForm()

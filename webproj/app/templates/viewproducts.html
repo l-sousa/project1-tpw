@@ -34,6 +34,11 @@
                     {{ success }}
                 </div>
             {% endif %}
+            {% if invalid %}
+                 <div class="alert alert-danger" role="alert">
+                    {{ invalid }}
+                </div>
+            {% endif %}
             <br>
             <div class="row">
                 <div class="col-lg-3 col-md-5">
@@ -128,7 +133,7 @@
 
 
     <!-- EDIT PRODUCT MODAL -->
-    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="staticBackdropLabel">
         <!-- Vertically centered scrollable modal -->
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -153,6 +158,9 @@
                             </div>
                             <div class="col-md-6">
                                 <p> {{ field|add_class:'form-control' }}</p>
+                                {% for error in field.errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                                {% endfor %}
                             </div>
                             {% endif %}
                         {% endfor %}
@@ -187,6 +195,7 @@
             function finishedit(){
                 $('#productEditForm').submit();
             }
+
         </script>
     {% endblock %}
 
