@@ -10,31 +10,31 @@ class CreateAccountForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'address', 'password1', 'password2',)
+        fields = ('username', 'first_name', 'last_name', 'email', 'address', 'password1', 'password2')
 
 class ProductQueryForm(forms.Form):
     query_prodname = forms.CharField(label='Search:', max_length=100,
                                      widget=forms.TextInput(attrs={'placeholder': 'O que procura?'}))
 
 class AccountDetailsUpdateForm(UserChangeForm):
-    new_firstname = forms.CharField(max_length=50, required=False, help_text='Optional', label='Primeiro Nome')
-    new_lastname = forms.CharField(max_length=50, required=False, help_text='Optional', label='Último Nome')
+    first_name = forms.CharField(max_length=50, required=False, help_text='Optional', label='Primeiro Nome')
+    last_name = forms.CharField(max_length=50, required=False, help_text='Optional', label='Último Nome')
     email = email = forms.EmailField(max_length=200, help_text='Required. Please inform a valid email address', label='Endereço de Email')
-    new_address = forms.CharField(max_length=200, required=False, help_text='Optional', label='Morada')
-    new_username = forms.CharField(max_length=25, label='Username')
+    address = forms.CharField(max_length=200, required=False, help_text='Optional', label='Morada')
+    username = forms.CharField(max_length=25, label='Username')
 
     class Meta:
         model = User
-        fields = ('new_username', 'new_firstname', 'new_lastname', 'email', 'new_address',)
+        fields = ('username', 'first_name', 'last_name', 'email', 'address')
 
 class AccountPasswordUpdateForm(PasswordChangeForm):
-    original = forms.CharField(max_length=30)
-    new_passwd1 = forms.CharField(max_length=30)
-    new_passwd2 = forms.CharField(max_length=30)
+    old_password = forms.CharField(max_length=30, label='Password Atual')
+    new_password1 = forms.CharField(max_length=30, label='Nova Password')
+    new_password2 = forms.CharField(max_length=30, label='Confirmação da Nova Password')
 
     class Meta:
         model = User
-        fields = ('original', 'new_passwd1', 'new_passwd2', )
+        fields = ('old_password', 'new_password1', 'new_password2')
 
 
 """

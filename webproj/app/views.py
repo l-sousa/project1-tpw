@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponseRedirect
+from django.contrib.auth import update_session_auth_hash
 
 from app.models import *
 from app.forms import *
@@ -81,6 +82,16 @@ def shopSearchView(request):
     return render(request, 'index.html', data)
 
 
+def prefillForm(clientprofile):
+    # Pre-fill the form with current data
+    form = AccountDetailsUpdateForm()
+    form.fields['first_name'].initial = clientprofile.user.first_name
+    form.fields['last_name'].initial = clientprofile.user.last_name
+    form.fields['email'].initial = clientprofile.user.email
+    form.fields['address'].initial = clientprofile.address
+    form.fields['username'].initial = clientprofile.user.username
+    return form
+
 
 def clientAccountDetailsView(request):
     if request.user.is_authenticated:
@@ -90,18 +101,30 @@ def clientAccountDetailsView(request):
         clientprofile = Client.objects.get(user=user_post)
         # if POST request, process form data
         if request.method == 'POST':
-            print(request.POST)
-            form = AccountDetailsUpdateForm(request.POST, instance=request.user)
+            form_general = AccountDetailsUpdateForm(request.POST, instance=request.user)
+            form_passwd = AccountPasswordUpdateForm(request.user, request.POST)
+            # The user wished to update his password
+            if 'old_password' in request.POST:
+                # is it valid tho?
+                if form_passwd.is_valid():
+                    user = form_passwd.save()
+                    update_session_auth_hash(request, user)
+                    user.client = request.user
+                    clientprofile = Client.objects.get(user_id=user.client.id)
+                    user.save()
+                    user.refresh_from_db()
+                    # Pre-fill the form with current data -> Give it to the template
+                    data['formgeneral'] = prefillForm(clientprofile)
+                    data['formpasswd'] = form_passwd
+                    data['success'] = 'Password alterada com sucesso!'
+
+                    return render(request, 'accountdetails.html', data)
+
             return render(request, 'index.html', data)
         # if GET (or any other method), create blank form
         else:
             # Pre-fill the form with current data
-            form = AccountDetailsUpdateForm()
-            form.fields['new_firstname'].initial = clientprofile.user.first_name
-            form.fields['new_lastname'].initial = clientprofile.user.last_name
-            form.fields['email'].initial = clientprofile.user.email
-            form.fields['new_address'].initial = clientprofile.address
-            form.fields['new_username'].initial = clientprofile.user.username
+            form = prefillForm(clientprofile)
             # Give it to the template
             data['formgeneral'] = form
             data['formpasswd'] = PasswordChangeForm(request.user)
