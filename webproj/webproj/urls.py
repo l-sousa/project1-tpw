@@ -21,7 +21,7 @@ from app import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/django', admin.site.urls),
     path('', views.indexView, name='index'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
@@ -30,7 +30,8 @@ urlpatterns = [
     path('shopsearch/', views.shopSearchView, name='shop search'),
 
     # ADMIN VIEWS
-    path('admin/addproduct', views.adminAddNewProductView, name='admin add new product'),
+    path('admin/products/addproduct', views.adminAddNewProductView, name='admin add new product'),
+    path('admin/products/', views.adminProductsView, name='admin edit products'),
 
 
 ]

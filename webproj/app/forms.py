@@ -18,19 +18,20 @@ class ProductQueryForm(forms.Form):
 
 
 """
-    class CreateMealForm(forms.ModelForm):
-        class Meta:
-            model = Meal
-            fields = [‘name’, ‘date’, ‘members’]
-        name = forms.CharField()
-        date = forms.DateInput()
-        members = forms.ModelMultipleChoiceField(
-            queryset=Member.objects.all(),
-            widget=forms.CheckboxSelectMultiple
-    )
+    ADMIN FORMS
 """
 
 class NewProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'category', 'brand', 'price', 'quantity']
+
+class EditProductForm(forms.Form):
+    product_id = forms.IntegerField()
+    name = forms.CharField(max_length=50)
+    description = forms.CharField(max_length=150)
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), required=False)
+    brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False)
+    price = forms.DecimalField(max_digits=5, decimal_places=2)
+    quantity = forms.DecimalField(max_digits=3, decimal_places=0)
+    image = forms.URLField()
