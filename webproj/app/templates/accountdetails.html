@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} A Sua Conta {% endblock %}
+
+{% block content %}
+
+    {% load widget_tweaks %}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static "img/breadcrumb.jpg" %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>A Sua Conta</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <span>A Sua Conta</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="checkout__form">
+                <h4 style="text-align: center; margin-bottom: 50px;">Detalhes da conta</h4>
+                            <div class="card" style="margin: auto;">
+                                <div class="card-header">
+                                    <ul class="nav nav-pills card-header-pills">
+                                        <li class="nav-item" style="margin: auto;">
+                                            <button class="site-btn" href="#cardbodyGeral" data-toggle="collapse" data-target="#cardbodyGeral" aria-expanded="false" aria-controls="carbody">Informação Geral</button>
+                                        </li>
+                                        <br>
+                                        <li class="nav-item" style="margin: auto;">
+                                            <button class="site-btn" href="#cardbodyPasswd" data-toggle="collapse" data-target="#cardbodyPasswd" aria-expanded="false" aria-controls="carbody">Alterar Senha</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="collapse" id="cardbodyGeral">
+                                    <div class="card-body" >
+                                        <h4 class="card-title">Informação Geral da Conta</h4>
+                                        <form action="." method="post">
+                                            {% csrf_token %}
+                                                <div class="col-lg-8 col-md-6" style="margin-left: auto; margin-right: auto;">
+                                                    {% for field in formgeneral %}
+                                                        {% if field.name == 'password' %}
+                                                            {{ field.as_hidden }}
+                                                        {% else %}
+                                                        <div class="row checkout__input">
+                                                            <div class="col-md-4" >
+                                                                <p>{{ field.label_tag }}</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p> {{ field|add_class:'form-control' }}</p>
+                                                                {% if field.help_text %}
+                                                                    <small style="color: grey">{{ field.help_text }}</small>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                <div class="row form-group">
+                                                <div class="col-lg-8 col-md-6">
+                                                    <button type="submit" class="site-btn">GUARDAR ALTERAÇÕES</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="collapse" id="cardbodyPasswd">
+                                    <div class="card-body" >
+                                        <h4 class="card-title">Password</h4>
+                                        <form action="." method="post">
+                                            {% csrf_token %}
+                                                <div class="col-lg-8 col-md-6" style="margin-left: auto; margin-right: auto;">
+                                                    {% for field in formpasswd %}
+                                                        <div class="row checkout__input">
+                                                            <div class="col-md-4" >
+                                                                <p>{{ field.label_tag }}</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p> {{ field|add_class:'form-control' }}</p>
+                                                                {% if field.help_text %}
+                                                                    <small style="color: grey">{{ field.help_text }}</small>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                <div class="row form-group">
+                                                <div class="col-lg-8 col-md-6">
+                                                    <button type="submit" class="site-btn">GUARDAR ALTERAÇÕES</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+
+
+{% endblock %}
+
+

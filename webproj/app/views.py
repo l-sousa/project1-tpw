@@ -81,6 +81,35 @@ def shopSearchView(request):
     return render(request, 'index.html', data)
 
 
+
+def clientAccountDetailsView(request):
+    if request.user.is_authenticated:
+        data = {}
+        # Fetch current user
+        user_post = User.objects.get(username=request.user.username)
+        clientprofile = Client.objects.get(user=user_post)
+        # if POST request, process form data
+        if request.method == 'POST':
+            print(request.POST)
+            form = AccountDetailsUpdateForm(request.POST, instance=request.user)
+            return render(request, 'index.html', data)
+        # if GET (or any other method), create blank form
+        else:
+            # Pre-fill the form with current data
+            form = AccountDetailsUpdateForm()
+            form.fields['new_firstname'].initial = clientprofile.user.first_name
+            form.fields['new_lastname'].initial = clientprofile.user.last_name
+            form.fields['email'].initial = clientprofile.user.email
+            form.fields['new_address'].initial = clientprofile.address
+            form.fields['new_username'].initial = clientprofile.user.username
+            # Give it to the template
+            data['formgeneral'] = form
+            data['formpasswd'] = PasswordChangeForm(request.user)
+
+        return render(request, 'accountdetails.html', data)
+    return redirect('login')
+
+
 """
     EXCLUSIVE ADMIN VIEWS 
 """
