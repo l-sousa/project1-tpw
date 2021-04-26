@@ -125,3 +125,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'app/static')
+
+
+# URL to redirect after successful login
+# Fixes redirect to /accounts/profile
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login'

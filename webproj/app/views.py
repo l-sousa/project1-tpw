@@ -94,6 +94,7 @@ def prefillForm(clientprofile):
 
 
 def clientAccountDetailsView(request):
+    # In order to edit, the user must be logged in
     if request.user.is_authenticated:
         data = {}
         # Fetch current user
@@ -117,20 +118,42 @@ def clientAccountDetailsView(request):
                     data['formgeneral'] = prefillForm(clientprofile)
                     data['formpasswd'] = form_passwd
                     data['success'] = 'Password alterada com sucesso!'
-
                     return render(request, 'accountdetails.html', data)
-
-            return render(request, 'index.html', data)
-        # if GET (or any other method), create blank form
+                else:
+                    data['invalid'] = 'Erro na alteração da palavra-passe! Por favor, verifique.'
+                    # Pre-fill the form with current data -> Give it to the template
+                    data['formgeneral'] = prefillForm(clientprofile)
+                    data['formpasswd'] = form_passwd
+            # The user wished to update his general information
+            else:
+                # is it valid tho?
+                if form_general.is_valid():
+                    newinfo = form_general.save()
+                    newinfo.client = request.user
+                    clientprofile = Client.objects.get(user_id=newinfo.client.id)
+                    newinfo.save()
+                    newinfo.refresh_from_db()
+                    # Pre-fill the form with current data -> Give it to the template
+                    data['formgeneral'] = prefillForm(clientprofile)
+                    data['formpasswd'] = form_passwd
+                    data['success'] = 'Informações gerais alteradas com sucesso!'
+                    return render(request, 'accountdetails.html', data)
+                else:
+                    data['invalid'] = 'Erro na alteração dos dados! Por favor, verifique.'
+                    # Pre-fill the form with current data -> Give it to the template
+                    data['formgeneral'] = prefillForm(clientprofile)
+                    data['formpasswd'] = form_passwd
+        # if GET (or any other method), create blank form (accessing the page 1st time)
         else:
             # Pre-fill the form with current data
             form = prefillForm(clientprofile)
             # Give it to the template
             data['formgeneral'] = form
             data['formpasswd'] = PasswordChangeForm(request.user)
-
         return render(request, 'accountdetails.html', data)
-    return redirect('login')
+    else:
+        # The user is not logged in, so we redirect to that page
+        return redirect('login')
 
 
 """
