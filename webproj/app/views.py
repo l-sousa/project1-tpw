@@ -178,7 +178,7 @@ def adminAddNewProductView(request):
             data['form'] = form
         return render(request, 'addproduct.html', data)
     else:
-        return redirect('user404')
+        return redirect('page not found')
 
 #Display all products in store + ability to edit their info
 def adminProductsView(request):
@@ -223,4 +223,9 @@ def adminProductsView(request):
         data['all_cats'] = categories
         return render(request, 'viewproducts.html', data)
     else:
-        return redirect('user404')
+        return redirect('page not found')
+
+def pageNotFoundView(request):
+    out = render(request, 'pagenotfound.html')
+    out.status_code = 404
+    return out

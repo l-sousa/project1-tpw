@@ -29,6 +29,7 @@ urlpatterns = [
     path('shopsearch/item/<int:pid>/', views.productDetailsView, name='product details'),
     path('shopsearch/', views.shopSearchView, name='shop search'),
     path('account/', views.clientAccountDetailsView, name='client account details'),
+    path('pagenotfound/', views.pageNotFoundView, name='page not found'),
 
     # ADMIN VIEWS
     path('admin/products/addproduct', views.adminAddNewProductView, name='admin add new product'),
