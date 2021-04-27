@@ -4,27 +4,38 @@ from django.contrib.auth import logout
 from app.models import *
 from app.forms import *
 from django.core.paginator import Paginator
+from django.contrib.auth import views as auth_views
+
+from django.http import HttpResponse
 
 
 # Create your views here.
 
 def indexView(request):
     data = {}
+
     if request.method == 'GET':
         categories = []
         for cat in Category.objects.all():
             categories.append(cat)
         searchform = ProductQueryForm()
-        rangeSliderForm = RangeSliderForm()
         data['categories'] = categories
         data['form'] = searchform
-        data['range_slider_form'] = rangeSliderForm
 
         data['products'] = list(Product.objects.all())
         data['page_obj'] = Paginator(Product.objects.all(), 9)
 
         page_number = request.GET.get('page')
         data['page_obj'] = data['page_obj'].get_page(page_number)
+
+        if request.user.is_authenticated:
+            if 'order' not in request.session:
+                user_post = User.objects.get(username=request.user.username)
+                clientprofile = Client.objects.get(user=user_post)
+
+                x = Order.objects.create(client=clientprofile)
+
+                request.session['order'] = x.pk
 
         if request.method == 'POST':
             return render(request, 'productsearch.html', data)
@@ -75,31 +86,6 @@ def byCategory(request, cat):
     return redirect('index')
 
 
-## PROVAVELMENTE APAGAR ISTO
-def rangeSlider(request):
-    if request.method == 'POST':
-        form = RangeSliderForm(request.POST)
-        if form.is_valid():
-            min_val = form.cleaned_data['min_value']
-            max_val = form.cleaned_data['max_value']
-
-            categories = []
-            for cat in Category.objects.all():
-                categories.append(cat)
-            data['categories'] = categories
-
-            data['page_obj'] = Paginator(Product.objects.filter(price__gte=min_val, price__lte=max_val), 9)
-            data['form'] = ProductQueryForm()
-
-            data['range_slider_form'] = form
-            page_number = request.GET.get('page')
-            data['page_obj'] = data['page_obj'].get_page(page_number)
-
-            return render(request, 'index.html', data)
-
-    return redirect('index')
-
-
 # Create new user account
 def createAccountView(request):
     if request.method == 'POST':
@@ -110,9 +96,9 @@ def createAccountView(request):
             client.save()
             new_user.refresh_from_db()
             return redirect('index')
-    else:
-        form = CreateAccountForm()
-        return render(request, 'createaccount.html', {'form': form})
+
+    form = CreateAccountForm()
+    return render(request, 'createaccount.html', {'form': form})
 
 
 # Product Details
@@ -164,5 +150,42 @@ def shopSearchView(request):
 
 
 def account_logout(request):
+    Order.objects.filter(id=request.session['session']).delete()
     logout(request)
     return redirect('login')
+
+
+def cart(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            order = Order.objects.get(pk=request.session['order'])
+
+            data = {
+                'products': order.products.all()
+            }
+
+            return render(request, 'cart.html', data)
+
+        return redirect('login')
+
+    raise Http404
+
+
+def addToCart(request, product_id):
+    # if POST request, process form data
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            product_to_add = Product.objects.get(pk=product_id)
+
+            user_post = User.objects.get(username=request.user.username)
+            clientprofile = Client.objects.get(user=user_post)
+
+            order = Order.objects.get(pk=request.session['order'])
+
+            order.products.add(product_to_add)
+            order.save()
+            return redirect('index')
+        else:
+            return redirect('login')
+
+    raise Http404

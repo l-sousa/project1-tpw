@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Client, Category, Brand, Order, Product
+from app.models import *
 
 # Register your models here.
 admin.site.register(Client)

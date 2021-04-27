@@ -28,9 +28,9 @@ urlpatterns = [
     path('createaccount/', views.createAccountView, name='create account'),
     path('item/<int:pid>/', views.productDetailsView, name='product details'),
     path('shopsearch/', views.shopSearchView, name='shop search'),
-
     path('order_by/<str:order_by>/', views.orderProductsBy, name='order products by'),
     path('by_category/<str:cat>/', views.byCategory, name='select category'),
-    path('range_slider/', views.rangeSlider, name='range slider'),
+    path('cart/', views.cart, name='cart'),
+    path('add_to_cart/<int:product_id>/', views.addToCart, name='add to cart'),
 
 ]
