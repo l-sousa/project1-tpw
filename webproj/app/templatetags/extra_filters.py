@@ -7,10 +7,5 @@ register = template.Library()
 
 
 @register.filter
-def get_product_with_index(l, i):
-    try:
-        return l[i]
-    except:
-        return None
-
-
+def url_encode(value):
+    return value.replace("/", "%2F")

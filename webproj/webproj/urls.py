@@ -31,6 +31,6 @@ urlpatterns = [
     path('order_by/<str:order_by>/', views.orderProductsBy, name='order products by'),
     path('by_category/<str:cat>/', views.byCategory, name='select category'),
     path('cart/', views.cart, name='cart'),
-    path('add_to_cart/<int:product_id>/', views.addToCart, name='add to cart'),
+    path('add_to_cart/<int:product_id>/<int:curr_page>/<str:curr_url>', views.addToCart, name='add to cart'),
 
 ]

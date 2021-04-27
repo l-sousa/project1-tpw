@@ -171,18 +171,19 @@ def cart(request):
     raise Http404
 
 
-def addToCart(request, product_id):
+def addToCart(request, product_id, curr_page, curr_url):
     # if POST request, process form data
     if request.method == 'GET':
         if request.user.is_authenticated:
             product_to_add = Product.objects.get(pk=product_id)
 
+
             if product_to_add.quantity > 0:
                 product_to_add.quantity = product_to_add.quantity - 1
                 product_to_add.save()
             else:
-                return HttpResponse("não dá para remover mais produtos")
 
+                return HttpResponse("não dá para remover mais produtos")
 
             user_post = User.objects.get(username=request.user.username)
             clientprofile = Client.objects.get(user=user_post)
@@ -191,7 +192,11 @@ def addToCart(request, product_id):
 
             order.products.add(product_to_add)
             order.save()
-            return redirect('index')
+
+            caller = curr_url.replace("%2F", "/")
+            print(f'>{caller}<')
+
+            return redirect(caller + '?page=' + str(curr_page))
         else:
             return redirect('login')
 
