@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 
 # Create your models here.
@@ -28,11 +29,6 @@ class Brand(models.Model):
         return str(self.name)
 
 
-class Order(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    order_date = models.DateTimeField(auto_now_add=True)
-
-
 class Product(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=150)
@@ -44,3 +40,13 @@ class Product(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class Order(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
+    products = models.ManyToManyField(Product)
+    total = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+
+    def __str__(self):
+        return JsonResponse(client=client, order_date=order_date, products=products)

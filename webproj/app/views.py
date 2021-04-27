@@ -229,3 +229,23 @@ def pageNotFoundView(request):
     out = render(request, 'pagenotfound.html')
     out.status_code = 404
     return out
+
+# Past orders view
+def clientPastOrdersView(request):
+    # In order to view past orders, the user must be logged in
+    if request.user.is_authenticated:
+        data = {}
+        # Fetch current user
+        user_post = User.objects.get(username=request.user.username)
+        clientprofile = Client.objects.get(user=user_post)
+        # if GET request, display orders :)
+        if request.method == 'GET':
+            oobj = Order.objects.filter(client_id=clientprofile.id)
+            clientorders = list(oobj)
+            print(clientorders)
+            data['clientorders'] = clientorders
+
+            return render(request, 'userorders.html', data)
+        # maybe an error or smth
+        else:
+            redirect('page not found')
