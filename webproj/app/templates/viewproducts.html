@@ -1,0 +1,203 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Administração de Loja {% endblock %}
+
+{% block content %}
+
+    {% load widget_tweaks %}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Mercadinho dos Cliques - Administração de Loja</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <span>Administração de Loja</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+            {% if success %}
+                <div class="alert alert-success" role="alert">
+                    {{ success }}
+                </div>
+            {% endif %}
+            {% if invalid %}
+                 <div class="alert alert-danger" role="alert">
+                    {{ invalid }}
+                </div>
+            {% endif %}
+            <br>
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div class="sidebar">
+                        <div class="sidebar__item">
+                            <h4>Todas as Categorias</h4>
+                            <ul>
+                                {% for cat in all_cats %}
+                                <li><a href="#">{{ cat.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="sidebar__item">
+                            <h4>Price</h4>
+                            <div class="price-range-wrap">
+                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                    data-min="10" data-max="540">
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                </div>
+                                <div class="range-slider">
+                                    <div class="price-input">
+                                        <input type="text" id="minamount">
+                                        <input type="text" id="maxamount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9 col-md-7">
+
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Ordenar por:</span>
+                                    <select>
+                                        <option value="0">Default</option>
+                                        <option value="1">Preço (asc)</option>
+                                        <option value="2">Preço (des)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                <div class="filter__option">
+                                    <span class="icon_grid-2x2"></span>
+                                    <span class="icon_ul"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for product in products %}
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <div id="product-image" class="product__item__pic set-bg" data-setbg="">
+                                    <img src="{{ product.image }}" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+                                    <ul class="product__item__pic__hover">
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#modalEdit" data-backdrop="static" onclick="productToEditDetails( '{{ product.id }}', '{{product.name}}', '{{product.description}}', '{{product.category.all.first.name}}', '{{product.brand}}', '{{product.price}}', '{{product.quantity}}', '{{ product.image }}' )">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6>{{ product.name}} - {{ product.brand }}</h6>
+                                    <h5>€ {{ product.price }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                    </div>
+                    <div class="product__pagination">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+
+
+    <!-- EDIT PRODUCT MODAL -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="staticBackdropLabel">
+        <!-- Vertically centered scrollable modal -->
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Editar Produto</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="productEditForm" action=".">
+                <div class="modal-body">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% if field.name == 'product_id' %}
+                                {{ field.as_hidden }}
+                            {% else %}
+                            <div class="col-md-4" >
+                                <p>{{ field.label_tag }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ field|add_class:'form-control' }}</p>
+                                {% for error in field.errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finishedit()">Confirmar Edição</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% block extrajs %}
+        <script>
+            function productToEditDetails(id, name, description, category, brand, price, quantity, image){
+                // Modal Pre-Fill
+                console.log(id);
+                $('#id_product_id').val(id); // Easier way to find the product
+                $('#id_name').val(name);
+                $('#id_description').val(description);
+                $('#id_category').val(category);
+                $('#id_brand').val(brand);
+                $('#id_price').val(price);
+                $('#id_quantity').val(quantity);
+                $('#id_image').val(image);
+
+            }
+
+            function finishedit(){
+                $('#productEditForm').submit();
+            }
+
+        </script>
+    {% endblock %}
+
+
+{% endblock %}

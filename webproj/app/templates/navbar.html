@@ -5,10 +5,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'index' %}">HOME</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'cart' %}">CARRINHO</a>
-                </li>
                 {% if user.is_authenticated %}
+                    {% if not user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cart' %}">CARRINHO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'client account details' %}">CONTA</a>
+                        </li>
+                    {% elif user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin edit products' %}">VERIFICAR STOCK</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin add new product' %}">ADICIONAR NOVO PRODUTO</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a href="{% url 'account_logout' %}" class="nav-link">LOGOUT</a>
                     </li>

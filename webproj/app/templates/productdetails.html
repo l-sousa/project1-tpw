@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %} Product Details {% endblock %}
+{% block title %} Detalhes do Produto {% endblock %}
 
 {% block content %}
 
@@ -14,8 +14,8 @@
                     <div class="breadcrumb__text">
                         <h2>{{ product.name }}</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <a href="#">{{ product.category.all.first.name }}</a>
+                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'select category' cat=product.category.all.first.name %}">{{ product.category.all.first.name }}</a>
                             <span>{{ product.name }}, {{ product.brand }}</span>
                         </div>
                     </div>
