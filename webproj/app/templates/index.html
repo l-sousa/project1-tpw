@@ -26,9 +26,7 @@
     <br>
     <br>
     <!-- Breadcrumb Section End -->
-    {% load extra_filters %}
 
-    <h1>a {{ request.path|url_encode }}</h1>
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
@@ -97,7 +95,10 @@
                                              style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
                                         <ul class="product__item__pic__hover">
                                             <li>
-                                                <a href="{% url 'add to cart' product_id=product.pk curr_page=page_obj.number curr_url=request.path|url_encode %}">
+
+                                                {% load extra_filters %}
+
+                                                <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode curr_page=page_obj.number %}">
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </a>
                                             </li>

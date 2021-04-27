@@ -104,7 +104,14 @@
                                         <img src="{{ product.image }}"
                                              style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
                                         <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li>
+                                                {% load extra_filters %}
+
+                                                <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode %}">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
@@ -123,6 +130,7 @@
 
                 </div>
             </div>
+
         </div>
     </section>
     <!-- Product Section End -->

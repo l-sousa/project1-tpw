@@ -59,6 +59,7 @@ def orderProductsBy(request, order_by):
         for cat in Category.objects.all():
             categories.append(cat)
         data['categories'] = categories
+        data['form'] = ProductQueryForm()
 
         page_number = request.GET.get('page')
         data['page_obj'] = data['page_obj'].get_page(page_number)
@@ -70,6 +71,7 @@ def orderProductsBy(request, order_by):
 def byCategory(request, cat):
     data = {}
     if request.method == 'GET':
+        data['form'] = ProductQueryForm()
 
         data['products'] = Product.objects.filter(category__name=cat)
         data['page_obj'] = Paginator(data['products'], 9)
@@ -160,8 +162,11 @@ def cart(request):
         if request.user.is_authenticated:
             order = Order.objects.get(pk=request.session['order'])
 
+            total = sum([p.price for p in order.products.all()])
+
             data = {
-                'products': order.products.all()
+                'products': order.products.all(),
+                'total': total
             }
 
             return render(request, 'cart.html', data)
@@ -171,12 +176,12 @@ def cart(request):
     raise Http404
 
 
-def addToCart(request, product_id, curr_page, curr_url):
+def addToCart(request, product_id, curr_url, curr_page=None):
     # if POST request, process form data
+    print()
     if request.method == 'GET':
         if request.user.is_authenticated:
             product_to_add = Product.objects.get(pk=product_id)
-
 
             if product_to_add.quantity > 0:
                 product_to_add.quantity = product_to_add.quantity - 1
@@ -194,10 +199,19 @@ def addToCart(request, product_id, curr_page, curr_url):
             order.save()
 
             caller = curr_url.replace("%2F", "/")
-            print(f'>{caller}<')
 
-            return redirect(caller + '?page=' + str(curr_page))
+            if curr_page:
+                url = caller + '?page=' + str(curr_page)
+                return redirect(url)
+            else:
+                return redirect('index')
+
         else:
             return redirect('login')
 
     raise Http404
+
+
+def cleanCart(request):
+    Order.objects.get(pk=request.session['order']).products.clear()
+    return redirect('cart')
