@@ -177,6 +177,13 @@ def addToCart(request, product_id):
         if request.user.is_authenticated:
             product_to_add = Product.objects.get(pk=product_id)
 
+            if product_to_add.quantity > 0:
+                product_to_add.quantity = product_to_add.quantity - 1
+                product_to_add.save()
+            else:
+                return HttpResponse("não dá para remover mais produtos")
+
+
             user_post = User.objects.get(username=request.user.username)
             clientprofile = Client.objects.get(user=user_post)
 

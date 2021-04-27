@@ -5,7 +5,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'index' %}">HOME</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">CARRINHO</a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a href="{% url 'account_logout' %}" class="nav-link">LOGOUT</a>
