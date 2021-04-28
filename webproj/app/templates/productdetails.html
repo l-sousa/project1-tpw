@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %} Detalhes do Produto {% endblock %}
+
+{% block content %}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>{{ product.name }}</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'select category' cat=product.category.all.first.name %}">{{ product.category.all.first.name }}</a>
+                            <span>{{ product.name }}, {{ product.brand }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                 src="{{ product.image }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{ product.name }}</h3>
+
+                        <div class="product__details__price">€ {{ product.price }}</div>
+                        <p>{{ product.description }}</p>
+                        {% load extra_filters %}
+                        {% if not user.is_superuser %}
+                        <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode curr_page=page_obj.number %}"
+                           class="primary-btn">ADICIONAR AO CARRINHO</a>
+                        {% endif %}
+                        <ul>
+                            <li><b>Disponibilidade: </b>
+                                <span>Em stock: {{ product.quantity }} unidade{{ product.quantity|pluralize }}</span>
+                            </li>
+                            <li><b>Marca: </b> <span>{{ product.brand }}</span></li>
+                            <li><b>Categoria: </b>
+                                {% for cat in product.category.all %}
+                                    <span>{{ cat.name }} </span>
+                                {% endfor %}
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% block search_bar_products %}
+
+    <form action="{% url 'shop search' %}" method="post">
+        {% csrf_token %}
+        {{ form.query_prodname }}
+        <button type="submit" class="site-btn">PROCURAR</button>
+    </form>
+    <style>
+        .search_bar_products {
+            width: 100%;
+        }
+    </style>
+{% endblock %}

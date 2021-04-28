@@ -1,0 +1,79 @@
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div id="navbarSupportedContent" class="d-flex">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">HOME</a>
+                </li>
+                {% if user.is_authenticated %}
+                    {% if not user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cart' %}">CARRINHO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'client account details' %}">CONTA</a>
+                        </li>
+                    {% elif user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin edit products' %}">VERIFICAR STOCK</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin add new product' %}">ADICIONAR NOVO PRODUTO</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="{% url 'account_logout' %}" class="nav-link">LOGOUT</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">LOGIN</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </nav>
+    <br><br><br>
+
+    <style>
+        nav {
+            background-color: #43a047;
+        }
+
+        nav a {
+            color: white !important;
+            font-weight: bold;
+
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .navbar button {
+            background-color: white;
+            color: dimgray;
+            border-color: #7fad39;
+            border-radius: 0;
+        }
+
+        .navbar button:hover {
+            background-color: #7fad39;
+            color: white;
+            border-color: white;
+
+        }
+
+        .navbar input {
+            background-color: white;
+            border-color: #7fad39;
+            border-radius: 0;
+        }
+
+        .navbar input::placeholder {
+            color: dimgray;
+        }</style>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %}Mercadinho dos Cliques{% endblock %}
+
+{% block content %}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Mercadinho dos Cliques - HOME</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <span>Loja</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br>
+    <br>
+    <br>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="sidebar">
+                        <div class="sidebar__item">
+                            <a href="{% url 'index' %}"><h4>Todas as Categorias</h4></a>
+                            <ul>
+                                {% for cat in categories %}
+                                    <li><a href="{% url 'select category' cat=cat.name %}">{{ cat.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% if not user.is_superuser %}
+                        <div class="sidebar__item">
+                            <h4>Price</h4>
+                            <div class="price-range-wrap">
+                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                     data-min="10" data-max="540">
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="sidebar__item">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- SEARCH RESULTS SECTION -->
+                <div class="col-lg-9 col-md-7">
+                    <div class="section-title product__discount__title">
+                        <div class="hero__search__form" style="box-sizing: content-box; width: 100%">
+                            {% include "search_bar_products.html" %}
+                            {% block search_bar_products %}
+                            {% endblock %}
+                        </div>
+                    </div>
+
+
+                    <div class="filter__item">
+                        <div class="row">
+
+
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                        <option value="{% url 'index' %}">Ordernar Por</option>
+                                        <option value="{% url 'order products by' order_by='asc' %}">Preço (asc)
+                                        </option>
+                                        <option value="{% url 'order products by' order_by='desc' %}">Preço (des)
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for product in page_obj %}
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div id="product-image" class="product__item__pic set-bg" data-setbg="">
+                                        <img src="{{ product.image }}"
+                                             style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+                                        <ul class="product__item__pic__hover">
+                                            <li>
+
+                                                {% load extra_filters %}
+                                                {% if not user.is_superuser %}
+                                                <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode curr_page=page_obj.number %}">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <h6><a href="{% url 'product details' pid=product.id %}">{{ product.name }}
+                                            - {{ product.brand }}</a></h6>
+                                        <h5>€ {{ product.price }}</h5>
+                                        <h6>Unidade{{ product.quantity|pluralize }}: x{{ product.quantity }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="product__pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-long-arrow-left"></i></a>
+                    {% endif %}
+
+                    <span class="current" style="margin-right:1% ">
+                         {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-long-arrow-right"></i></a>
+                    {% endif %}
+                </span>
+            </div>
+
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+
+
+
+
+{% endblock %}
