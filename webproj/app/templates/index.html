@@ -41,6 +41,7 @@
                                 {% endfor %}
                             </ul>
                         </div>
+                        {% if not user.is_superuser %}
                         <div class="sidebar__item">
                             <h4>Price</h4>
                             <div class="price-range-wrap">
@@ -50,11 +51,12 @@
                                     <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                     <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                 </div>
-
                             </div>
-
-
                         </div>
+                        {% else %}
+                        <div class="sidebar__item">
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -97,10 +99,11 @@
                                             <li>
 
                                                 {% load extra_filters %}
-
+                                                {% if not user.is_superuser %}
                                                 <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode curr_page=page_obj.number %}">
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </a>
+                                                {% endif %}
                                             </li>
                                         </ul>
                                     </div>
@@ -108,7 +111,7 @@
                                         <h6><a href="{% url 'product details' pid=product.id %}">{{ product.name }}
                                             - {{ product.brand }}</a></h6>
                                         <h5>€ {{ product.price }}</h5>
-                                        <h6>Units: x{{ product.quantity }}</h6>
+                                        <h6>Unidade{{ product.quantity|pluralize }}: x{{ product.quantity }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -135,10 +138,6 @@
                 </span>
             </div>
 
-        </div>
-        </div>
-
-        </div>
         </div>
     </section>
     <!-- Hero Section End -->

@@ -59,7 +59,7 @@
                                         </td>
 
                                     </tr>
-                                {% endfor %}s
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -73,6 +73,7 @@
         </div>
     </section>
     <!-- Past Orders Section End -->
+    {% if clientorders %}
     <div class="row">
         <div class="col"></div>
 
@@ -82,7 +83,7 @@
             </div>
         </div>
         <div class="col"></div>
-
     </div>
+    {% endif %}
 
 {% endblock %}

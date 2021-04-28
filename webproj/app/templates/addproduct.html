@@ -29,6 +29,11 @@
                 {{ success }}
             </div>
         {% endif %}
+        {% if invalid %}
+            <div class="alert alert-danger" role="alert">
+                {{ invalid }}
+            </div>
+        {% endif %}
             <div class="checkout__form">
                 <h4 style="text-align: center; margin-bottom: 50px;">Detalhes do Produto</h4>
                 <form method="post">

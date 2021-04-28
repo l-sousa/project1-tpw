@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponseRedirect
-from django.contrib.auth import logout
+from django.contrib.auth import logout, update_session_auth_hash
 from app.models import *
 from app.forms import *
 from django.core.paginator import Paginator
@@ -317,7 +317,10 @@ def adminAddNewProductView(request):
                 # newprod_name = form.cleaned_data['name']
                 data['success'] = 'Novo produto adicionado com sucesso!'
                 data['form'] = NewProductForm()
-            # if GET (or any other method), create blank form
+            else:
+                data['invalid'] = 'Erro na adicção de produto!'
+                data['form'] = NewProductForm()
+        # if GET (or any other method), create blank form
         else:
             form = NewProductForm()
             data['form'] = form
