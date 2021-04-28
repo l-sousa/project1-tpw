@@ -94,7 +94,7 @@
                                         <h6><a href="{% url 'product details' pid=product.id %}">{{ product.name }}
                                             - {{ product.brand }}</a></h6>
                                         <h5>€ {{ product.price }}</h5>
-                                        <h6>Units: x{{ product.quantity }}</h6>
+                                        <h6>Unidade{{ product.quantity|pluralize }}: x{{ product.quantity }}</h6>
                                     </div>
                                 </div>
                             </div>
