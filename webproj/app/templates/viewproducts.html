@@ -35,7 +35,7 @@
                 </div>
             {% endif %}
             {% if invalid %}
-                 <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert">
                     {{ invalid }}
                 </div>
             {% endif %}
@@ -47,27 +47,11 @@
                             <h4>Todas as Categorias</h4>
                             <ul>
                                 {% for cat in all_cats %}
-                                <li><a href="#">{{ cat.name }}</a></li>
+                                    <li><a href="#">{{ cat.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
-                        <div class="sidebar__item">
-                            <h4>Price</h4>
-                            <div class="price-range-wrap">
-                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                    data-min="10" data-max="540">
-                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                </div>
-                                <div class="range-slider">
-                                    <div class="price-input">
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
@@ -76,56 +60,57 @@
                     <div class="filter__item">
                         <div class="row">
                             <div class="col-lg-4 col-md-5">
-                                <div class="filter__sort">
-                                    <span>Ordenar por:</span>
-                                    <select>
-                                        <option value="0">Default</option>
-                                        <option value="1">Preço (asc)</option>
-                                        <option value="2">Preço (des)</option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="col-lg-4 col-md-4">
                             </div>
                             <div class="col-lg-4 col-md-3">
-                                <div class="filter__option">
-                                    <span class="icon_grid-2x2"></span>
-                                    <span class="icon_ul"></span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        {% for product in products %}
+                        {% for product in page_obj %}
                             <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div id="product-image" class="product__item__pic set-bg" data-setbg="">
-                                    <img src="{{ product.image }}" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-                                    <ul class="product__item__pic__hover">
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#modalEdit" data-backdrop="static" onclick="productToEditDetails( '{{ product.id }}', '{{product.name}}', '{{product.description}}', '{{product.category.all.first.name}}', '{{product.brand}}', '{{product.price}}', '{{product.quantity}}', '{{ product.image }}' )">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6>{{ product.name}} - {{ product.brand }}</h6>
-                                    <h5>€ {{ product.price }}</h5>
+                                <div class="product__item">
+                                    <div id="product-image" class="product__item__pic set-bg" data-setbg="">
+                                        <img src="{{ product.image }}"
+                                             style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+                                        <ul class="product__item__pic__hover">
+                                            <li>
+                                                <a href="#" data-toggle="modal" data-target="#modalEdit"
+                                                   data-backdrop="static"
+                                                   onclick="productToEditDetails( '{{ product.id }}', '{{ product.name }}', '{{ product.description }}', '{{ product.category.all.first.name }}', '{{ product.brand }}', '{{ product.price }}', '{{ product.quantity }}', '{{ product.image }}' )">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <h6>{{ product.name }} - {{ product.brand }}</h6>
+                                        <h5>€ {{ product.price }}</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
 
 
                     </div>
-                    <div class="product__pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                    </div>
                 </div>
+            </div>
+            <div class="product__pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-long-arrow-left"></i></a>
+                    {% endif %}
+
+                    <span class="current" style="margin-right:1% ">
+                         {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-long-arrow-right"></i></a>
+                    {% endif %}
+                </span>
             </div>
         </div>
     </section>
@@ -144,33 +129,35 @@
                     </button>
                 </div>
                 <form method="post" id="productEditForm" action=".">
-                <div class="modal-body">
+                    <div class="modal-body">
 
-                    <div class="container-fluid">
-                        <div class="row">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            {% if field.name == 'product_id' %}
-                                {{ field.as_hidden }}
-                            {% else %}
-                            <div class="col-md-4" >
-                                <p>{{ field.label_tag }}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <p> {{ field|add_class:'form-control' }}</p>
-                                {% for error in field.errors %}
-                                <p class="alert alert-danger">{{ error }}</p>
+                        <div class="container-fluid">
+                            <div class="row">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    {% if field.name == 'product_id' %}
+                                        {{ field.as_hidden }}
+                                    {% else %}
+                                        <div class="col-md-4">
+                                            <p>{{ field.label_tag }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p> {{ field|add_class:'form-control' }}</p>
+                                            {% for error in field.errors %}
+                                                <p class="alert alert-danger">{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
-                            {% endif %}
-                        {% endfor %}
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finishedit()">Confirmar Edição</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finishedit()">
+                            Confirmar Edição
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -178,7 +165,7 @@
 
     {% block extrajs %}
         <script>
-            function productToEditDetails(id, name, description, category, brand, price, quantity, image){
+            function productToEditDetails(id, name, description, category, brand, price, quantity, image) {
                 // Modal Pre-Fill
                 console.log(id);
                 $('#id_product_id').val(id); // Easier way to find the product
@@ -192,7 +179,7 @@
 
             }
 
-            function finishedit(){
+            function finishedit() {
                 $('#productEditForm').submit();
             }
 

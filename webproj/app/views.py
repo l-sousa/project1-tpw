@@ -56,6 +56,7 @@ def orderProductsBy(request, order_by):
         return render(request, 'index.html', data)
     return redirect('index')
 
+
 # Dropdown selector that orders products by
 def byCategory(request, cat):
     data = {}
@@ -158,10 +159,12 @@ def cart(request):
     else:
         return redirect('login')
 
+
 # Add items to user cart
 def addToCart(request, product_id, curr_url, curr_page=None):
     if request.user.is_authenticated:
         if not request.user.is_superuser:
+            print("ISSSSSSSSSSSSSSSSSS")
             if request.method == 'GET':
                 product_to_add = Product.objects.get(pk=product_id)
                 if product_to_add.quantity > 0:
@@ -176,15 +179,19 @@ def addToCart(request, product_id, curr_url, curr_page=None):
                 order.client = clientprofile
                 order.save()
                 caller = curr_url.replace("%2F", "/")
+                print("callerrrrrrrrr ", caller)
                 if curr_page:
                     url = caller + '?page=' + str(curr_page)
                     return redirect(url)
                 else:
+                    if caller != "/shopsearch/":
+                        return redirect(caller)
                     return redirect('index')
         else:
             return redirect('page not found')
     else:
         return redirect('login')
+
 
 # Clean cart View
 def cleanCart(request):
@@ -266,9 +273,37 @@ def clientAccountDetailsView(request):
         return redirect('login')
 
 
+def buyCart(request):
+    user_post = User.objects.get(username=request.user.username)
+    clientprofile = Client.objects.get(user=user_post)
+
+    curr_order = Order.objects.get(pk=request.session['order'])
+    curr_order.is_complete = True
+    curr_order.save()
+
+    x = Order.objects.create(client=clientprofile)
+    request.session['order'] = x.pk
+
+    return redirect('index')
+
+
+def cleanOrders(request):
+    user_post = User.objects.get(username=request.user.username)
+    clientprofile = Client.objects.get(user=user_post)
+
+    Order.objects.filter(client=clientprofile).delete()
+
+    x = Order.objects.create(client=clientprofile)
+
+    request.session['order'] = x.pk
+
+    return redirect('client past orders')
+
+
 """
     EXCLUSIVE ADMIN VIEWS 
 """
+
 
 # Add a new product to the shop
 def adminAddNewProductView(request):
@@ -290,7 +325,8 @@ def adminAddNewProductView(request):
     else:
         return redirect('page not found')
 
-#Display all products in store + ability to edit their info
+
+# Display all products in store + ability to edit their info
 def adminProductsView(request):
     # Only if we're dealing with an admin!!
     if request.user.is_authenticated and request.user.is_superuser:
@@ -329,14 +365,21 @@ def adminProductsView(request):
         for cat in Category.objects.all():
             categories.append(cat)
         data['all_cats'] = categories
+
+        data['page_obj'] = Paginator(products, 9)
+        page_number = request.GET.get('page')
+        data['page_obj'] = data['page_obj'].get_page(page_number)
+
         return render(request, 'viewproducts.html', data)
     else:
         return redirect('page not found')
+
 
 def pageNotFoundView(request):
     out = render(request, 'pagenotfound.html')
     out.status_code = 404
     return out
+
 
 # Past orders view
 def clientPastOrdersView(request):
@@ -348,7 +391,7 @@ def clientPastOrdersView(request):
         clientprofile = Client.objects.get(user=user_post)
         # if GET request, display orders :)
         if request.method == 'GET':
-            oobj = Order.objects.filter(client_id=clientprofile.id)
+            oobj = Order.objects.filter(client_id=clientprofile.id, is_complete=True)
             clientorders = list(oobj)
             print(clientorders)
             data['clientorders'] = clientorders

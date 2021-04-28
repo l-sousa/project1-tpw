@@ -32,10 +32,11 @@ urlpatterns = [
     path('cart/', views.cart, name='cart'),
     re_path(r'add_to_cart/(?P<product_id>[0-9]+)/(?P<curr_url>[^/]+)/(?P<curr_page>[0-9]+)?/$', views.addToCart,
             name='add to cart'),
-    path('clean_cart/', views.cleanCart, name='clean cart'),
-
+    path('cart/clean/', views.cleanCart, name='clean cart'),
+    path('cart/buy', views.buyCart, name='buy cart'),
     path('account/', views.clientAccountDetailsView, name='client account details'),
     path('account/myorders/', views.clientPastOrdersView, name='client past orders'),
+    path('account/myorders/clean-orders', views.cleanOrders, name='clean past orders'),
     path('pagenotfound/', views.pageNotFoundView, name='page not found'),
 
     # ADMIN VIEWS

@@ -43,15 +43,9 @@
 
                         <div class="product__details__price">€ {{ product.price }}</div>
                         <p>{{ product.description }}</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="primary-btn">ADICIONAR AO CARRINHO</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        {% load extra_filters %}
+                        <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode curr_page=page_obj.number %}"
+                           class="primary-btn">ADICIONAR AO CARRINHO</a>
                         <ul>
                             <li><b>Disponibilidade: </b>
                                 <span>Em stock: {{ product.quantity }} unidade{{ product.quantity|pluralize }}</span>

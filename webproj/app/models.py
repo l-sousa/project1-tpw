@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+
 # from flask import jsonify
 
 
@@ -46,10 +48,7 @@ class Order(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True)
     products = models.ManyToManyField(Product)
+    is_complete = models.BooleanField(default=False)
 
     def total(self):
         return sum([p.price for p in self.products.all()])
-
-    """def __str__(self):
-        return jsonify(client=self.client)
-    """
