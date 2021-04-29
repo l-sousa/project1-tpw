@@ -5,10 +5,14 @@
 
 
 ### Bookmarks
-The app has been deployed on Python Anywhere, and may be accessed via the following link [Mercadinho dos Cliques](http://itskikat.pythonanywhere.com)
+
 
 
 ### Accessing the App
+
+The app has been deployed on Python Anywhere, and may be accessed via the following link [Mercadinho dos Cliques](http://itskikat.pythonanywhere.com).
+
+You can register yourself in order to gain access to some functionalities, but we also have two accounts bellow, created and used in development :) 
 
 | TYPE | USERNAME | PASSWORD |
 | ---- | -------- | -------- |
