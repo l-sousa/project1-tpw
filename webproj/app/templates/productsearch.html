@@ -82,10 +82,11 @@
                                         <ul class="product__item__pic__hover">
                                             <li>
                                                 {% load extra_filters %}
-
+                                                {% if user.is_authenticated and not user.is_superuser %}
                                                 <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode %}">
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </a>
+                                                {% endif %}
                                             </li>
                                         </ul>
                                         </ul>

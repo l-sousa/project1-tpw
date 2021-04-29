@@ -44,7 +44,7 @@
                         <div class="product__details__price">€ {{ product.price }}</div>
                         <p>{{ product.description }}</p>
                         {% load extra_filters %}
-                        {% if not user.is_superuser %}
+                        {% if user.is_authenticated and not user.is_superuser %}
                         <a href="{% url 'add to cart' product_id=product.pk curr_url=request.path|url_encode curr_page=page_obj.number %}"
                            class="primary-btn">ADICIONAR AO CARRINHO</a>
                         {% endif %}
