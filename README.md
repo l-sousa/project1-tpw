@@ -8,6 +8,13 @@
 The app has been deployed on Python Anywhere, and may be accessed via the following link [Mercadinho dos Cliques](http://itskikat.pythonanywhere.com)
 
 
+### Accessing the App
+
+| TYPE | USERNAME | PASSWORD |
+| ---- | -------- | -------- |
+| *ADMIN* | admin | admin123 |
+| *CLIENT* | client | teste123client |
+
 
 ----------
 ## Authors
